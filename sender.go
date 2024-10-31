@@ -25,7 +25,7 @@ type sender struct {
 	token string
 }
 
-func NewSender(token string) Sender {
+func NewSender(token string) *sender {
 	return &sender{
 		token: token,
 	}
