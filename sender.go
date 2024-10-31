@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/Djone4213/telegramSender/entity"
 	"net/http"
-	"telegramSender/entity"
 )
 
 const (
