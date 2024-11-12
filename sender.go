@@ -31,142 +31,138 @@ func NewSender(token string) *sender {
 	}
 }
 
-func (s *sender) SendMessage(msg entity.MessageText) (entity.OutputBody, error) {
+func (s *sender) SendMessage(msg entity.MessageText) (entity.OutputBodyMessage, error) {
+	var outMsg entity.OutputBodyMessage
+
 	if msg.ChatId == 0 {
-		return entity.OutputBody{}, errors.New("Not chatId")
+		return outMsg, errors.New("Not chatId")
 	}
 
 	jsonMsg, err := json.Marshal(msg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
-
-	//var tst map[string]interface{}
-	//json.Unmarshal(jsonMsg, &tst)
-	//log.Println(tst)
 
 	result, err := s.post(jsonMsg, fmt.Sprintf("%s%s/sendMessage", URL, s.token))
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
-
-	var outMsg entity.OutputBody
 
 	err = json.Unmarshal(result, &outMsg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	return outMsg, nil
 }
 
-func (s *sender) SendVideo(msg entity.VideoMessage) (entity.OutputBody, error) {
+func (s *sender) SendVideo(msg entity.VideoMessage) (entity.OutputBodyMessage, error) {
+	var outMsg entity.OutputBodyMessage
+
 	if msg.ChatId == 0 {
-		return entity.OutputBody{}, errors.New("Not chatId")
+		return outMsg, errors.New("Not chatId")
 	}
 
 	jsonMsg, err := json.Marshal(msg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	result, err := s.post(jsonMsg, fmt.Sprintf("%s%s/sendVideo", URL, s.token))
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
-
-	var outMsg entity.OutputBody
 
 	err = json.Unmarshal(result, &outMsg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	return outMsg, nil
 }
 
-func (s *sender) EditMessageText(msg entity.EditMessageText) (entity.OutputBody, error) {
+func (s *sender) EditMessageText(msg entity.EditMessageText) (entity.OutputBodyMessage, error) {
+	var outMsg entity.OutputBodyMessage
+
 	if msg.ChatId == 0 {
-		return entity.OutputBody{}, errors.New("Not chatId")
+		return outMsg, errors.New("Not chatId")
 	}
 
 	if msg.MessageId == 0 {
-		return entity.OutputBody{}, errors.New("Not messageId to replace")
+		return outMsg, errors.New("Not messageId to replace")
 	}
 
 	jsonMsg, err := json.Marshal(msg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	result, err := s.post(jsonMsg, fmt.Sprintf("%s%s/editMessageText", URL, s.token))
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
-
-	var outMsg entity.OutputBody
 
 	err = json.Unmarshal(result, &outMsg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	return outMsg, nil
 }
 
-func (s *sender) DeleteMessage(msg entity.DeleteMessage) (entity.OutputBody, error) {
+func (s *sender) DeleteMessage(msg entity.DeleteMessage) (entity.OutputBodyDeleteMessage, error) {
+	var outMsg entity.OutputBodyDeleteMessage
+
 	if msg.ChatId == 0 {
-		return entity.OutputBody{}, errors.New("Not chatId")
+		return outMsg, errors.New("Not chatId")
 	}
 
 	if msg.MessageId == 0 {
-		return entity.OutputBody{}, errors.New("Not messageId to delete")
+		return outMsg, errors.New("Not messageId to delete")
 	}
 
 	jsonMsg, err := json.Marshal(msg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
-	result, err := s.post(jsonMsg, fmt.Sprintf("%s%s/editMessageText", URL, s.token))
+	result, err := s.post(jsonMsg, fmt.Sprintf("%s%s/deleteMessage", URL, s.token))
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
-
-	var outMsg entity.OutputBody
 
 	err = json.Unmarshal(result, &outMsg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	return outMsg, nil
 }
 
-func (s *sender) EditMessageReplyMarkup(msg entity.EditMessageReplyMarkup) (entity.OutputBody, error) {
+func (s *sender) EditMessageReplyMarkup(msg entity.EditMessageReplyMarkup) (entity.OutputBodyMessage, error) {
+	var outMsg entity.OutputBodyMessage
+
 	if *msg.ChatId == 0 {
-		return entity.OutputBody{}, errors.New("Not chatId")
+		return outMsg, errors.New("Not chatId")
 	}
 
 	if *msg.MessageId == 0 {
-		return entity.OutputBody{}, errors.New("Not messageId to delete")
+		return outMsg, errors.New("Not messageId to delete")
 	}
 
 	jsonMsg, err := json.Marshal(msg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	result, err := s.post(jsonMsg, fmt.Sprintf("%s%s/editMessageReplyMarkup", URL, s.token))
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
-
-	var outMsg entity.OutputBody
 
 	err = json.Unmarshal(result, &outMsg)
 	if err != nil {
-		return entity.OutputBody{}, err
+		return outMsg, err
 	}
 
 	return outMsg, nil
